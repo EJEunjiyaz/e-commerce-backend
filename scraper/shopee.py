@@ -22,7 +22,7 @@ language_dialog.click()
 print("Click language dialog successful.")
 
 """
-Collect product name 
+Collect product name.
 """
 product_name = WebDriverWait(driver, timeout=5).until(lambda d: d.find_element(By.CSS_SELECTOR, "div._3g8My- > span"))
 print(product_name.text)
@@ -43,9 +43,34 @@ print(available_options)
 """Create dict to store the options and variations"""
 variation_dict = {}
 variations = driver.find_elements(by=By.CLASS_NAME, value='_3ABAc7')
-for i in range(len(variations)):
-    variation_dict[available_options[i]] = variations[i].text.split()
-print(variation_dict)
+
+"""If the product has 2 variations."""
+if len(available_options) == 2:
+    variation1 = variations[0]
+    variation2 = variations[1]
+
+    # variation_dict[available_options[i]] = variation.text.split("\n")  # Insert into dict
+    for button1 in variation1.find_elements(by=By.TAG_NAME, value='button'):
+        button1.click()
+        """Check the button is clickable or not."""
+        try:
+            select1 = variation1.find_element(by=By.CLASS_NAME, value='product-variation--selected')
+            if select1.text == button1.text:
+                """Loop over second variation"""
+                for button2 in variation2.find_elements(by=By.TAG_NAME, value='button'):
+                    button2.click()
+                    try:
+                        select2 = variation2.find_element(by=By.CLASS_NAME, value='product-variation--selected')
+                        if select2.text == button2.text:
+                            quantity_div = driver.find_element(by=By.CLASS_NAME, value='L6Jueq')
+                            quantity = int(''.join(filter(str.isdigit, quantity_div.text)))
+                            print(button1.text, button2.text, quantity)
+                    except Exception:
+                        print("Button 2 unavailable")
+                    button2.click()
+        except Exception:
+            print("Button 1 unavailable")
+# print(variation_dict)
 
 # available_variations = WebDriverWait(driver, timeout=5).until(
 #     lambda d: d.find_elements(By.XPATH, '//button[@class="product-variation" and @aria-disabled="false"]'))
