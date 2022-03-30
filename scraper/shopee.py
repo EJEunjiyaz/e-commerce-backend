@@ -1,3 +1,6 @@
+import json
+
+from datetime import datetime
 from time import sleep
 
 from selenium import webdriver
@@ -5,6 +8,8 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
+
+from django.core.serializers.json import DjangoJSONEncoder
 
 service = ChromeService(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service)
@@ -83,36 +88,36 @@ language_dialog.click()
 print("Click language dialog successful.")
 
 """Collect product name."""
-product_name = WebDriverWait(driver, timeout=5).until(lambda d: d.find_element(By.CSS_SELECTOR, "div._3g8My- > span"))
-print(product_name.text)
+product_name = WebDriverWait(driver, timeout=5).until(lambda d: d.find_element(By.CSS_SELECTOR, "div._3g8My- > span")).text
+# print(product_name)
 
 """Collect product image."""
-image = query_product_image(driver)
-print(image)
+product_image = query_product_image(driver)
+# print(product_image)
 
 """Collect store name."""
 store_name = query_store_name(driver)
-print(store_name)
+# print(store_name)
 
 """Collect store link."""
 store_link = query_store_link(driver)
-print(store_link)
+# print(store_link)
 
 """Collect store avatar."""
 store_avatar = query_store_avatar(driver)
-print(store_avatar)
+# print(store_avatar)
 
 """Collect rating score."""
 rating_score = query_rating_score(driver)
-print(rating_score)
+# print(rating_score)
 
 """Collect rating voter."""
 rating_voter = query_rating_voter(driver)
-print(rating_voter)
+# print(rating_voter)
 
 """Collect product sold."""
 product_sold = query_product_sold(driver)
-print(product_sold)
+# print(product_sold)
 
 
 """
@@ -126,10 +131,11 @@ available_options = []
 for option in options:
     if option.text not in default_options:
         available_options.append(option.text)
-print(available_options)
+# print(available_options)
+
 
 """Create dict to store the options and variations"""
-variation_dict = {}
+variations_list = []
 variations = driver.find_elements(by=By.CLASS_NAME, value='_3ABAc7')
 
 
@@ -154,13 +160,35 @@ if len(available_options) == 2:  # If the product has 2 variations.
                             quantity_div = driver.find_element(by=By.CLASS_NAME, value='L6Jueq')
                             quantity = int(''.join(filter(str.isdigit, quantity_div.text)))
                             price = query_price(driver)
-                            print(button1.text, button2.text, quantity, price)
+                            # print(button1.text, button2.text, quantity, price)
+                            """Create dictionary and add product information."""
+                            variation_dict = {
+                                available_options[0]: button1.text,
+                                available_options[1]: button2.text,
+                                "quantity": quantity,
+                                "price": price
+                            }
+                            variations_list.append(variation_dict)
                     except Exception:
-                        print(button1.text, button2.text, 0, None)
+                        # print(button1.text, button2.text, 0, None)
+                        variation_dict = {
+                            available_options[0]: button1.text,
+                            available_options[1]: button2.text,
+                            "quantity": 0,
+                            "price": None
+                        }
+                        variations_list.append(variation_dict)
                     button2.click()
         except Exception:
             for button2 in variation2.find_elements(by=By.TAG_NAME, value='button'):
-                print(button1.text, button2.text, 0, None)
+                # print(button1.text, button2.text, 0, None)
+                variation_dict = {
+                    available_options[0]: button1.text,
+                    available_options[1]: button2.text,
+                    "quantity": 0,
+                    "price": None
+                }
+                variations_list.append(variation_dict)
 elif len(available_options) == 1:  # If the product has only variation.
     variation = variations[0]
     for button in variation.find_elements(by=By.TAG_NAME, value='button'):
@@ -178,11 +206,24 @@ elif len(available_options) == 1:  # If the product has only variation.
         except Exception:
             print("Button unavailable")
         button.click()
-# print(variation_dict)
 
 
-"""
-Search shop name
-"""
-# shop_name = WebDriverWait(driver, timeout=5).until(lambda d: d.find_element(By.CLASS_NAME, "_1wVLAc"))
-# print(shop_name.text)
+product = {
+    "name": product_name,
+    "image": product_image,
+    "store": {
+        "name": store_name,
+        "link": store_link,
+        "avatar": store_avatar
+    },
+    "created_at": datetime.now(),
+    "variations": variations_list,
+    "rating": {
+        "avg_star": rating_score,
+        "voter": rating_voter
+    },
+    "sold": product_sold
+}
+
+product_json = json.dumps(product, cls=DjangoJSONEncoder, ensure_ascii=False)
+print(product_json)
