@@ -144,7 +144,6 @@ if len(available_options) == 2:  # If the product has 2 variations.
     variation1 = variations[0]
     variation2 = variations[1]
 
-    # variation_dict[available_options[i]] = variation.text.split("\n")  # Insert into dict
     for button1 in variation1.find_elements(by=By.TAG_NAME, value='button'):
         button1.click()
         """Check the button is clickable or not."""
@@ -154,6 +153,7 @@ if len(available_options) == 2:  # If the product has 2 variations.
                 """Loop over second variation"""
                 for button2 in variation2.find_elements(by=By.TAG_NAME, value='button'):
                     button2.click()
+                    # sleep(1)
                     try:
                         select2 = variation2.find_element(by=By.CLASS_NAME, value='product-variation--selected')
                         if select2.text == button2.text:
@@ -206,6 +206,8 @@ elif len(available_options) == 1:  # If the product has only variation.
         except Exception:
             print("Button unavailable")
         button.click()
+
+driver.close()
 
 
 product = {
