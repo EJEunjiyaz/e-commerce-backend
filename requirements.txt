@@ -1,4 +1,7 @@
-Django~=2.2
-mysqlclient~=2.0.3
-python-decouple~=3.4
-djangorestframework~=3.12.4
+Django
+python-decouple
+djangorestframework
+selenium
+webdriver-manager
+pymongo
+dnspython
