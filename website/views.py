@@ -2,9 +2,32 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework_mongoengine.viewsets import ModelViewSet
 
-from scraper.shopee import shopee_scrape
+from scraper.shopee import shopee_scrape, shopee_scrape_variation
 from website.models import ShopeeItem
 from website.serializer import ShopeeItemSerializer, PostShopeeItemSerializer
+
+
+@api_view(['POST'])
+def post_shopee_item_variations(request):
+    url = request.data['url']
+    product_name, available_options, variation1, variation2 = shopee_scrape_variation(url)
+    # print(product_name, available_options, variation1, variation2)
+
+    json = [
+        {
+            "name": product_name
+        },
+        {
+            "key": available_options[0],
+            "value": variation1
+        },
+        {
+            "key": available_options[1],
+            "value": variation2
+        }
+    ]
+    print(json)
+    return Response(json)
 
 
 @api_view(['POST'])

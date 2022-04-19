@@ -83,12 +83,54 @@ def query_store_avatar(obj):
     return img_link
 
 
+def shopee_scrape_variation(url):
+    service = ChromeService(executable_path=ChromeDriverManager().install())
+    driver = webdriver.Chrome(service=service)
+    driver.get(url)
+    print("Load Shopee item successful.")
+
+    """Click Thai language selected at welcome."""
+    print("Start to select language dialog.")
+    language_dialog = WebDriverWait(driver, timeout=5).until(
+        lambda d: d.find_element(By.CLASS_NAME, "shopee-button-outline.shopee-button-outline--primary-reverse "))
+    language_dialog.click()
+    print("Click language dialog successful.")
+
+    """Collect product name."""
+    product_name = WebDriverWait(driver, timeout=5).until(
+        lambda d: d.find_element(By.CSS_SELECTOR, "div._3g8My- > span")).text
+    # print(product_name)
+
+    """
+    Search for available variations.
+    """
+    options = WebDriverWait(driver, timeout=5).until(lambda d: d.find_elements(By.XPATH, '//label[@class="koZBMj"]'))
+    default_options = ["ช้อปเพิ่มคุ้มกว่า", "การจัดส่ง", ""]
+    """available_options for user to custom their own variations."""
+    available_options = []
+
+    for option in options:
+        if option.text not in default_options:
+            available_options.append(option.text)
+    # print(available_options)
+
+    """Create dict to store the options and variations"""
+    variations_list = []
+    variations = driver.find_elements(by=By.CLASS_NAME, value='_3ABAc7')
+
+    """Check number of variations then scraping."""
+    if len(available_options) == 2:  # If the product has 2 variations.
+        variation1 = variations[0]
+        variation2 = variations[1]
+
+        # print(variation1.text)
+        # print(variation2.text)
+        return product_name, available_options, variation1.text.split(), variation2.text.split()
+
+
 def shopee_scrape(url):
     service = ChromeService(executable_path=ChromeDriverManager().install())
     driver = webdriver.Chrome(service=service)
-    # driver.get("https://shopee.co.th/Apple-iPhone12-%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%88%E0%B8%AD-6.1-%E0%B8%99"
-    #            "%E0%B8%B4%E0%B9%89%E0%B8%A7-i.287137993.7862109494?sp_atk=cbb0583f-e97e-4e1e-b9bb-e6ccd583927c&xptdk"
-    #            "=cbb0583f-e97e-4e1e-b9bb-e6ccd583927c")
     driver.get(url)
     print("Load Shopee item successful.")
 
@@ -254,3 +296,19 @@ def shopee_scrape(url):
 #     "%E0%B8%94%E0%B8%81%E0%B9%87%E0%B9%83%E0%B8%AA%E0%B9%88%E0%B9%84%E0%B8%94%E0%B9%89-%E0%B8%9C%E0%B9%89%E0"
 #     "%B8%B2%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B8%A2%E0%B8%B1%E0%B8%9A-i.16489766.14938034833?sp_atk=35102125-2034"
 #     "-40ad-afd7-acc088019733"))
+
+# shopee_scrape_variation("https://shopee.co.th/%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%AB%E0%B9%88%E0%B8%A1%E0%B8%AA%E0%B8%AD%E0%B8%94%E0%B9%81%E0%B8%82%E0%B8%99-(%E0%B8%82%E0%B8%99%E0%B8%B2%E0%B8%94-50x58-%E0%B8%99%E0%B8%B4%E0%B9%89%E0%B8%A7-%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%B8%E0%B9%88%E0%B8%A1%E0%B8%A1%E0%B8%B2%E0%B8%81)-Blanket-with-Sleeve-%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%AB%E0%B9%88%E0%B8%A1%E0%B8%A1%E0%B8%B5%E0%B9%81%E0%B8%82%E0%B8%99-%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%AB%E0%B9%88%E0%B8%A1%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%AB%E0%B8%99%E0%B8%B2%E0%B8%A7-%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%84%E0%B8%A5%E0%B8%B8%E0%B8%A1-%E0%B9%80%E0%B8%AA%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%AB%E0%B8%99%E0%B8%B2%E0%B8%A7-%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%AB%E0%B9%88%E0%B8%A1%E0%B8%AA%E0%B8%A7%E0%B8%A1%E0%B9%81%E0%B8%82%E0%B8%99-i.74577230.7803295221?sp_atk=b93c2ae1-9137-41b0-9c20-d32297d098c9&xptdk=b93c2ae1-9137-41b0-9c20-d32297d098c9")
+
+# var = [
+#     {
+#         "name": "ผ้าห่มสอดแขน (ขนาด 50x58 นิ้ว, ผ้านุ่มมาก) / Blanket with Sleeve ผ้าห่มมีแขน ผ้าห่มกันหนาว ผ้าคลุม เสื้อกันหนาว ผ้าห่มสวมแขน"
+#     },
+#     {
+#         "key": "สี",
+#         "value": ["สีฟ้า", "สีส้ม", "สีครีม"]
+#     },
+#     {
+#         "key": "ปัก",
+#         "value": ["ปักชื่อ", "ไม่ปักชื่อ"]
+#     }
+# ]
