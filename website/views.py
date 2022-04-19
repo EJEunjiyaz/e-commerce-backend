@@ -3,8 +3,8 @@ from rest_framework.response import Response
 from rest_framework_mongoengine.viewsets import ModelViewSet
 
 from scraper.shopee import shopee_scrape, shopee_scrape_variation
-from website.models import ShopeeItem
-from website.serializer import ShopeeItemSerializer
+from website.models import ShopeeItem, ProductCategory
+from website.serializer import ShopeeItemSerializer, ProductCategorySerializer
 
 
 @api_view(['POST'])
@@ -69,6 +69,11 @@ def post_shopee_item(request):
 # class StoreViewSet(ModelViewSet):
 #     queryset = Store.objects.all()
 #     serializer_class = ShopeeItemSerializer
+
+
+class ProductCategoryViewSet(ModelViewSet):
+    queryset = ProductCategory.objects.all()
+    serializer_class = ProductCategorySerializer
 
 
 class ShopeeItemViewSet(ModelViewSet):

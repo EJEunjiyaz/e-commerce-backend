@@ -18,6 +18,10 @@ connect(host=f"mongodb+srv://{username}:{password}@{hostname}/{db_name}?retryWri
 #     avatar = URLField()
 
 
+class ProductCategory(Document):
+    name = StringField(primary_key=True)
+
+
 class ShopeeVariation(EmbeddedDocument):
     key = StringField()
     value = StringField()
