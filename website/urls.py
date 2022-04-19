@@ -5,8 +5,8 @@ from website import views
 
 router = routers.DefaultRouter()
 router.register(r'shopee_items', views.ShopeeItemViewSet)
-router.register(r'stores', views.StoreViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('shopee_item/', views.post_shopee_item, name='post_shopee_item')
 ]

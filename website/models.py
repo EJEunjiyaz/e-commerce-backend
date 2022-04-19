@@ -12,10 +12,14 @@ db_name = urllib.parse.quote_plus(config('MONGO_DB'))
 connect(host=f"mongodb+srv://{username}:{password}@{hostname}/{db_name}?retryWrites=true&w=majority")
 
 
-class Store(Document):
-    name = StringField(primary_key=True)
-    link = URLField()
-    avatar = URLField()
+class OnlyURL(Document):
+    url = URLField()
+
+
+# class Store(Document):
+#     name = StringField(primary_key=True)
+#     link = URLField()
+#     avatar = URLField()
 
 
 class ShopeeVariation(EmbeddedDocument):
@@ -32,7 +36,7 @@ class ShopeeItem(Document):
     name = StringField()
     url = URLField()
     image = URLField()
-    store = ReferenceField('Store', reverse_delete_rule=CASCADE)
+    store_name = StringField()
     creation_date = DateTimeField()
     modified_date = DateTimeField(default=datetime.datetime.now)
     variations = ListField(EmbeddedDocumentListField(ShopeeVariation))
