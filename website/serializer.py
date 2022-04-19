@@ -9,7 +9,7 @@ from website.models import ShopeeItem, Store
 #         fields = '__all__'
 
 
-class ShopeeItemSerializer(serializers.DocumentSerializer):
+class ShopeeItemSerializer(serializers.DynamicDocumentSerializer):
     class Meta:
         model = ShopeeItem
-        fields = ['name', 'url', 'image', 'store']
+        fields = '__all__'
