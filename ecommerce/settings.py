@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import mongoengine
 from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'website',
     'rest_framework',
+    'rest_framework_mongoengine'
 ]
 
 MIDDLEWARE = [
@@ -75,12 +77,10 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': 'mydatabase',
-#     }
-# }
+# DATABASES = {}
+
+mongoengine.connect(
+    host=f"mongodb+srv://{config('MONGO_USER')}:{config('MONGO_PASSWORD')}@{config('MONGO_HOST')}?retryWrites=true&w=majority")
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

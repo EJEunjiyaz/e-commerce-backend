@@ -24,7 +24,7 @@ class ShopeeRating(EmbeddedDocument):
 
 
 class ShopeeItem(Document):
-    name = StringField()
+    name = StringField(primary_key=True)
     image = URLField()
     store = ReferenceField('Store', reverse_delete_rule=CASCADE)
     creation_date = DateTimeField()
@@ -67,60 +67,61 @@ class ShopeeItem(Document):
 #     "sold": 2500
 # }
 
-store = {
-    "name": "istudiobyspvi",
-    "link": "https://shopee.co.th/istudiobyspvi?categoryId=100013&itemId=7862109494",
-    "avatar": "https://cf.shopee.co.th/file/1268397dcf33d930f6e0485c62b52696_tn"
-}
-
-item = {
-    "name": "Apple iPhone12 หน้าจอ 6.1 นิ้ว",
-    "store": store,
-    "variations": [
-        [
-            {
-                "key": "Color",
-                "value": "White"
-            },
-            {
-                "key": "ความจุ",
-                "value": "64GB"
-            },
-            {
-                "key": "quantity",
-                "value": "0"
-            },
-            {
-                "key": "price",
-                "value": "null"
-            }
-        ],
-        [
-            {
-                "key": "Color",
-                "value": "White"
-            },
-            {
-                "key": "ความจุ",
-                "value": "128GB"
-            },
-            {
-                "key": "quantity",
-                "value": "0"
-            },
-            {
-                "key": "price",
-                "value": "null"
-            }
-        ]
-    ],
-    "rating": {
-        "avg_star": "4.8",
-        "voter": 1300
-    },
-    "sold": 2500
-}
-
-istudiobyspvi = Store(**store)
-iphone = ShopeeItem(**item)
-iphone.save()
+# store = {
+#     "name": "istudiobyspvi",
+#     "link": "https://shopee.co.th/istudiobyspvi?categoryId=100013&itemId=7862109494",
+#     "avatar": "https://cf.shopee.co.th/file/1268397dcf33d930f6e0485c62b52696_tn"
+# }
+#
+# item = {
+#     "name": "Apple iPhone12 หน้าจอ 6.1 นิ้ว",
+#     "image": "https://cf.shopee.co.th/file/077b19603052f16f108dd21ee1dd0d69",
+#     "store": store,
+#     "variations": [
+#         [
+#             {
+#                 "key": "Color",
+#                 "value": "White"
+#             },
+#             {
+#                 "key": "ความจุ",
+#                 "value": "64GB"
+#             },
+#             {
+#                 "key": "quantity",
+#                 "value": "0"
+#             },
+#             {
+#                 "key": "price",
+#                 "value": "null"
+#             }
+#         ],
+#         [
+#             {
+#                 "key": "Color",
+#                 "value": "White"
+#             },
+#             {
+#                 "key": "ความจุ",
+#                 "value": "128GB"
+#             },
+#             {
+#                 "key": "quantity",
+#                 "value": "0"
+#             },
+#             {
+#                 "key": "price",
+#                 "value": "null"
+#             }
+#         ]
+#     ],
+#     "rating": {
+#         "avg_star": "4.8",
+#         "voter": 1300
+#     },
+#     "sold": 2500
+# }
+#
+# istudiobyspvi = Store(**store)
+# iphone = ShopeeItem(**item)
+# iphone.save()

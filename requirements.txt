@@ -1,6 +1,9 @@
 Django
 python-decouple
 djangorestframework
+django-rest-framework-mongoengine
+markdown
+django-filter
 selenium
 webdriver-manager
 pymongo
