@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+import urllib.parse
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 import mongoengine
 from decouple import config
@@ -79,8 +81,12 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 # DATABASES = {}
 
-mongoengine.connect(
-    host=f"mongodb+srv://{config('MONGO_USER')}:{config('MONGO_PASSWORD')}@{config('MONGO_HOST')}?retryWrites=true&w=majority")
+username = urllib.parse.quote_plus(config('MONGO_USER'))
+password = urllib.parse.quote_plus(config('MONGO_PASSWORD'))
+hostname = urllib.parse.quote_plus(config('MONGO_HOST'))
+db_name = urllib.parse.quote_plus(config('MONGO_DB'))
+
+mongoengine.connect(host=f"mongodb+srv://{username}:{password}@{hostname}/{db_name}?retryWrites=true&w=majority")
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

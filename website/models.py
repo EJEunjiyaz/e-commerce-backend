@@ -1,10 +1,15 @@
 import datetime
+import urllib.parse
 
 from mongoengine import *
 from decouple import config
 
-connect(host=f"mongodb+srv://{config('MONGO_USER')}:{config('MONGO_PASSWORD')}@{config('MONGO_HOST')}?retryWrites"
-             f"=true&w=majority")
+username = urllib.parse.quote_plus(config('MONGO_USER'))
+password = urllib.parse.quote_plus(config('MONGO_PASSWORD'))
+hostname = urllib.parse.quote_plus(config('MONGO_HOST'))
+db_name = urllib.parse.quote_plus(config('MONGO_DB'))
+
+connect(host=f"mongodb+srv://{username}:{password}@{hostname}/{db_name}?retryWrites=true&w=majority")
 
 
 class Store(Document):
