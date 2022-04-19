@@ -5,6 +5,7 @@ from website import views
 
 router = routers.DefaultRouter()
 router.register(r'shopee_items', views.ShopeeItemViewSet)
+router.register(r'product_categories', views.ProductCategoryViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
