@@ -4,7 +4,7 @@ from rest_framework_mongoengine.viewsets import ModelViewSet
 
 from scraper.shopee import shopee_scrape, shopee_scrape_variation
 from website.models import ShopeeItem
-from website.serializer import ShopeeItemSerializer, PostShopeeItemSerializer
+from website.serializer import ShopeeItemSerializer
 
 
 @api_view(['POST'])

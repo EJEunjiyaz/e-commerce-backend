@@ -12,10 +12,6 @@ db_name = urllib.parse.quote_plus(config('MONGO_DB'))
 connect(host=f"mongodb+srv://{username}:{password}@{hostname}/{db_name}?retryWrites=true&w=majority")
 
 
-class OnlyURL(Document):
-    url = URLField()
-
-
 # class Store(Document):
 #     name = StringField(primary_key=True)
 #     link = URLField()

@@ -1,7 +1,7 @@
 from rest_framework_mongoengine import serializers
 from mongoengine import *
 
-from website.models import ShopeeItem, OnlyURL
+from website.models import ShopeeItem
 
 
 # class StoreSerializer(serializers.DocumentSerializer):
@@ -14,11 +14,3 @@ class ShopeeItemSerializer(serializers.DynamicDocumentSerializer):
     class Meta:
         model = ShopeeItem
         fields = '__all__'
-
-
-class PostShopeeItemSerializer(serializers.DocumentSerializer):
-    url = URLField()
-
-    class Meta:
-        model = OnlyURL
-        fields = ['url']
