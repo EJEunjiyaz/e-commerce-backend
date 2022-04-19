@@ -128,5 +128,6 @@ class ShopeeItem(Document):
 # }
 #
 # istudiobyspvi = Store(**store)
+# istudiobyspvi.save()
 # iphone = ShopeeItem(**item)
 # iphone.save()
