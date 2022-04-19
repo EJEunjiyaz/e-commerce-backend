@@ -12,4 +12,4 @@ from website.models import ShopeeItem, Store
 class ShopeeItemSerializer(serializers.DocumentSerializer):
     class Meta:
         model = ShopeeItem
-        fields = ['name', 'image']
+        fields = ['name', 'url', 'image', 'store']

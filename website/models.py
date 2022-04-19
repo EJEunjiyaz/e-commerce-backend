@@ -13,7 +13,7 @@ connect(host=f"mongodb+srv://{username}:{password}@{hostname}/{db_name}?retryWri
 
 
 class Store(Document):
-    name = StringField()
+    name = StringField(primary_key=True)
     link = URLField()
     avatar = URLField()
 
@@ -30,6 +30,7 @@ class ShopeeRating(EmbeddedDocument):
 
 class ShopeeItem(Document):
     name = StringField(primary_key=True)
+    url = URLField()
     image = URLField()
     store = ReferenceField('Store', reverse_delete_rule=CASCADE)
     creation_date = DateTimeField()
@@ -47,6 +48,7 @@ class ShopeeItem(Document):
 
 # var = {
 #     "name": "Apple iPhone12 หน้าจอ 6.1 นิ้ว",
+#     "url": "https://shopee.co.th/Apple-iPhone12-%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%88%E0%B8%AD-6.1-%E0%B8%99%E0%B8%B4%E0%B9%89%E0%B8%A7-i.287137993.7862109494?sp_atk=095f1cd7-99e1-4671-90d0-12c0d9616fa9",
 #     "image": "https://cf.shopee.co.th/file/077b19603052f16f108dd21ee1dd0d69",
 #     "store": {
 #         "name": "istudiobyspvi",
@@ -80,8 +82,8 @@ class ShopeeItem(Document):
 #
 # item = {
 #     "name": "Apple iPhone12 หน้าจอ 6.1 นิ้ว",
+#     "url": "https://shopee.co.th/Apple-iPhone12-%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%88%E0%B8%AD-6.1-%E0%B8%99%E0%B8%B4%E0%B9%89%E0%B8%A7-i.287137993.7862109494?sp_atk=095f1cd7-99e1-4671-90d0-12c0d9616fa9",
 #     "image": "https://cf.shopee.co.th/file/077b19603052f16f108dd21ee1dd0d69",
-#     "store": store,
 #     "variations": [
 #         [
 #             {
@@ -129,5 +131,5 @@ class ShopeeItem(Document):
 #
 # istudiobyspvi = Store(**store)
 # istudiobyspvi.save()
-# iphone = ShopeeItem(**item)
+# iphone = ShopeeItem(**item, store=istudiobyspvi)
 # iphone.save()
