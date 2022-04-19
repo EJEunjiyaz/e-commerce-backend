@@ -13,16 +13,18 @@ from django.core.serializers.json import DjangoJSONEncoder
 
 service = ChromeService(executable_path=ChromeDriverManager().install())
 driver = webdriver.Chrome(service=service)
-driver.get("https://shopee.co.th/Apple-iPhone12-%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%88%E0%B8%AD-6.1-%E0%B8%99"
-           "%E0%B8%B4%E0%B9%89%E0%B8%A7-i.287137993.7862109494?sp_atk=cbb0583f-e97e-4e1e-b9bb-e6ccd583927c&xptdk"
-           "=cbb0583f-e97e-4e1e-b9bb-e6ccd583927c")
-# driver.get("https://shopee.co.th/Apple-Watch-Series-7-GPS-("
-#            "2021)-%E0%B8%AA%E0%B8%B2%E0%B8%A2-Sport-Band-i.287137993.11167901407")
-# driver.get("https://shopee.co.th/%E0%B8%9B%E0%B8%B2%E0%B8%81%E0%B8%81%E0%B8%B2%E0%B8%84%E0%B8%A7%E0%B8%AD%E0%B8%99%E0"
-#            "%B8%95%E0%B8%B1%E0%B9%89%E0%B8%A1-Marshmallow-0.29-%E0%B8%A1%E0%B8%A1.-%E0%B8%AB%E0%B8%A1%E0%B8%B6%E0%B8"
-#            "%81%E0%B8%AA%E0%B8%B5%E0%B8%99%E0%B9%89%E0%B8%B3%E0%B9%80%E0%B8%87%E0%B8%B4%E0%B8%99-("
-#            "1%E0%B8%94%E0%B9%89%E0%B8%B2%E0%B8%A1)-i.87642797.5502488788?sp_atk=0fda7e23-1cf6-429e-b80b-95c28c20d59e"
-#            "&xptdk=0fda7e23-1cf6-429e-b80b-95c28c20d59e")
+# driver.get("https://shopee.co.th/Apple-iPhone12-%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%88%E0%B8%AD-6.1-%E0%B8%99"
+#            "%E0%B8%B4%E0%B9%89%E0%B8%A7-i.287137993.7862109494?sp_atk=cbb0583f-e97e-4e1e-b9bb-e6ccd583927c&xptdk"
+#            "=cbb0583f-e97e-4e1e-b9bb-e6ccd583927c")
+driver.get("https://shopee.co.th/%E0%B9%80%E0%B8%AA%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B9%80%E0%B8%8A%E0%B8%B4%E0%B9%89%E0"
+           "%B8%95%E0%B9%80%E0%B8%81%E0%B8%B2%E0%B8%AB%E0%B8%A5%E0%B8%B5-%E0%B9%81%E0%B8%82%E0%B8%99%E0%B8%AA%E0%B8"
+           "%B1%E0%B9%89%E0%B8%99%E0%B8%9C%E0%B8%B9%E0%B9%89%E0%B8%AB%E0%B8%8D%E0%B8%B4%E0%B8%87-%E0%B8%AA%E0%B8%B5"
+           "%E0%B8%9E%E0%B8%B7%E0%B9%89%E0%B8%99-%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%B4%E0%B9%88%E0%B8%A1%E0"
+           "%B8%99%E0%B8%B8%E0%B9%88%E0%B8%A1-%E0%B9%80%E0%B8%9A%E0%B8%B2-%E0%B9%83%E0%B8%AA%E0%B9%88%E0%B8%AA%E0%B8"
+           "%9A%E0%B8%B2%E0%B8%A2-%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B8%95%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B8%A3%E0%B8%B5"
+           "%E0%B8%94%E0%B8%81%E0%B9%87%E0%B9%83%E0%B8%AA%E0%B9%88%E0%B9%84%E0%B8%94%E0%B9%89-%E0%B8%9C%E0%B9%89%E0"
+           "%B8%B2%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B8%A2%E0%B8%B1%E0%B8%9A-i.16489766.14938034833?sp_atk=35102125-2034"
+           "-40ad-afd7-acc088019733")
 print("Load Shopee item successful.")
 
 
@@ -40,8 +42,8 @@ def query_product_image(obj):
 
 
 def query_rating_score(obj):
-    span = obj.find_element(By.CLASS_NAME, 'product-rating-overview__rating-score')
-    return span.text
+    div = obj.find_element(By.CLASS_NAME, '_3uBhVI')
+    return div.text
 
 
 def query_rating_voter(obj):
@@ -124,7 +126,7 @@ product_sold = query_product_sold(driver)
 Search for available variations.
 """
 options = WebDriverWait(driver, timeout=5).until(lambda d: d.find_elements(By.XPATH, '//label[@class="koZBMj"]'))
-default_options = ["ช้อปเพิ่มคุ้มกว่า", "การจัดส่ง"]
+default_options = ["ช้อปเพิ่มคุ้มกว่า", "การจัดส่ง", ""]
 """available_options for user to custom their own variations."""
 available_options = []
 
@@ -137,6 +139,8 @@ for option in options:
 """Create dict to store the options and variations"""
 variations_list = []
 variations = driver.find_elements(by=By.CLASS_NAME, value='_3ABAc7')
+
+# print(available_options)
 
 
 """Check number of variations then scraping."""
