@@ -8,5 +8,6 @@ router.register(r'shopee_items', views.ShopeeItemViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('shopee_item/', views.post_shopee_item, name='post_shopee_item')
+    path('shopee_item/', views.post_shopee_item, name='post_shopee_item'),
+    path('shopee_item_variations/', views.post_shopee_item_variations, name='post_shopee_item_variations')
 ]
