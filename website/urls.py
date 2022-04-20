@@ -4,8 +4,8 @@ from rest_framework_mongoengine import routers
 from website import views
 
 router = routers.DefaultRouter()
-router.register(r'shopee_items', views.ShopeeItemViewSet)
-router.register(r'product_categories', views.ProductCategoryViewSet)
+router.register(r'shopee_items', views.ShopeeItemViewSet, basename='ShopeeItem')
+router.register(r'product_categories', views.ProductCategoryViewSet, basename='ProductCategory')
 
 urlpatterns = [
     path('', include(router.urls)),
