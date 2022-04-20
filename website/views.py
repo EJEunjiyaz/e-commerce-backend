@@ -87,6 +87,29 @@ class ShopeeItemByCategory(APIView):
         return Response(serializer.data)
 
 
+@api_view(['GET'])
+def get_shopee_item_rating_all_time(request):
+    name = request.query_params['name']
+    product_name, available_options, variation1, variation2 = shopee_scrape_variation(url)
+    # print(product_name, available_options, variation1, variation2)
+
+    json = [
+        {
+            "name": product_name
+        },
+        {
+            "key": available_options[0],
+            "value": variation1
+        },
+        {
+            "key": available_options[1],
+            "value": variation2
+        }
+    ]
+    print(json)
+    return Response(json)
+
+
 # class StoreViewSet(ModelViewSet):
 #     queryset = Store.objects.all()
 #     serializer_class = ShopeeItemSerializer

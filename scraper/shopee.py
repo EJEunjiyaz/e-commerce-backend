@@ -185,7 +185,7 @@ def shopee_scrape(url):
                     """Loop over second variation"""
                     for button2 in variation2.find_elements(by=By.TAG_NAME, value='button'):
                         button2.click()
-                        sleep(1)
+                        sleep(0.2)
                         try:
                             select2 = variation2.find_element(by=By.CLASS_NAME, value='product-variation--selected')
                             if select2.text == button2.text:
