@@ -19,7 +19,7 @@ connect(host=f"mongodb+srv://{username}:{password}@{hostname}/{db_name}?retryWri
 
 
 class ProductCategory(Document):
-    name = StringField(primary_key=True)
+    name = StringField(unique=True)
 
 
 class ShopeeVariation(EmbeddedDocument):
@@ -42,6 +42,9 @@ class ShopeeItem(Document):
     variations = ListField(EmbeddedDocumentListField(ShopeeVariation))
     rating = EmbeddedDocumentField(ShopeeRating)
     sold = IntField()
+    category = StringField()
+    option1 = StringField(required=False)
+    option2 = StringField(required=False)
 
     def save(self, *args, **kwargs):
         if not self.creation_date:
