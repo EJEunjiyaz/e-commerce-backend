@@ -1,5 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from rest_framework_mongoengine.viewsets import ModelViewSet
 
 from scraper.shopee import shopee_scrape, shopee_scrape_variation
@@ -76,6 +77,16 @@ def post_shopee_item(request):
     shopee_item_serializer.is_valid(raise_exception=True)
     shopee_item_serializer.save()
     return Response(shopee_item_serializer.data)
+
+
+class ShopeeItemByCategory(APIView):
+    def get(self, request):
+        category = request.query_params['category']
+        queryset = ShopeeItem.objects.all().filter(category=category)
+        for i in queryset:
+            print(i.values())
+        # serializer = ShopeeItemSerializer(queryset, many=True)
+        # print(serializer.data[0])
 
 
 # class StoreViewSet(ModelViewSet):
