@@ -1,6 +1,3 @@
-import json
-
-from datetime import datetime
 from time import sleep
 
 from selenium import webdriver
@@ -8,25 +5,6 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
-
-from django.core.serializers.json import DjangoJSONEncoder
-
-
-# service = ChromeService(executable_path=ChromeDriverManager().install())
-# driver = webdriver.Chrome(service=service)
-# driver.get("https://shopee.co.th/Apple-iPhone12-%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%88%E0%B8%AD-6.1-%E0%B8%99"
-#            "%E0%B8%B4%E0%B9%89%E0%B8%A7-i.287137993.7862109494?sp_atk=cbb0583f-e97e-4e1e-b9bb-e6ccd583927c&xptdk"
-#            "=cbb0583f-e97e-4e1e-b9bb-e6ccd583927c")
-# driver.get("https://shopee.co.th/%E0%B9%80%E0%B8%AA%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B9%80%E0%B8%8A%E0%B8%B4%E0%B9%89%E0"
-#            "%B8%95%E0%B9%80%E0%B8%81%E0%B8%B2%E0%B8%AB%E0%B8%A5%E0%B8%B5-%E0%B9%81%E0%B8%82%E0%B8%99%E0%B8%AA%E0%B8"
-#            "%B1%E0%B9%89%E0%B8%99%E0%B8%9C%E0%B8%B9%E0%B9%89%E0%B8%AB%E0%B8%8D%E0%B8%B4%E0%B8%87-%E0%B8%AA%E0%B8%B5"
-#            "%E0%B8%9E%E0%B8%B7%E0%B9%89%E0%B8%99-%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%B4%E0%B9%88%E0%B8%A1%E0"
-#            "%B8%99%E0%B8%B8%E0%B9%88%E0%B8%A1-%E0%B9%80%E0%B8%9A%E0%B8%B2-%E0%B9%83%E0%B8%AA%E0%B9%88%E0%B8%AA%E0%B8"
-#            "%9A%E0%B8%B2%E0%B8%A2-%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B8%95%E0%B9%89%E0%B8%AD%E0%B8%87%E0%B8%A3%E0%B8%B5"
-#            "%E0%B8%94%E0%B8%81%E0%B9%87%E0%B9%83%E0%B8%AA%E0%B9%88%E0%B9%84%E0%B8%94%E0%B9%89-%E0%B8%9C%E0%B9%89%E0"
-#            "%B8%B2%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B8%A2%E0%B8%B1%E0%B8%9A-i.16489766.14938034833?sp_atk=35102125-2034"
-#            "-40ad-afd7-acc088019733")
-# print("Load Shopee item successful.")
 
 
 def query_price(obj):
@@ -207,7 +185,7 @@ def shopee_scrape(url):
                     """Loop over second variation"""
                     for button2 in variation2.find_elements(by=By.TAG_NAME, value='button'):
                         button2.click()
-                        # sleep(1)
+                        sleep(0.1)
                         try:
                             select2 = variation2.find_element(by=By.CLASS_NAME, value='product-variation--selected')
                             if select2.text == button2.text:

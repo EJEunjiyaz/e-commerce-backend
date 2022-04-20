@@ -33,6 +33,7 @@ def post_shopee_item_variations(request):
 @api_view(['POST'])
 def post_shopee_item(request):
     url = request.data['url']
+    category = request.data['category']
     print(f"Currently scraping from {url}")
     product_name, product_image, store_name, store_link, store_avatar, variations_list, rating_score, rating_voter, product_sold = shopee_scrape(
         url)
@@ -56,9 +57,20 @@ def post_shopee_item(request):
             "avg_star": rating_score,
             "voter": rating_voter
         },
-        "sold": product_sold
+        "sold": product_sold,
+        "category": category
     }
-    # print(data)
+    try:
+        option1 = request.data['option1']
+        data["option1"] = option1
+    except:
+        pass
+    try:
+        option2 = request.data['option2']
+        data["option2"] = option2
+    except:
+        pass
+    print(data)
 
     shopee_item_serializer = ShopeeItemSerializer(data=data)
     shopee_item_serializer.is_valid(raise_exception=True)
