@@ -83,10 +83,8 @@ class ShopeeItemByCategory(APIView):
     def get(self, request):
         category = request.query_params['category']
         queryset = ShopeeItem.objects.all().filter(category=category)
-        for i in queryset:
-            print(i.values())
-        # serializer = ShopeeItemSerializer(queryset, many=True)
-        # print(serializer.data[0])
+        serializer = ShopeeItemSerializer(queryset, many=True)
+        return Response(serializer.data)
 
 
 # class StoreViewSet(ModelViewSet):
