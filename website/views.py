@@ -110,6 +110,18 @@ def get_shopee_item_rating_all_time(request):
     return Response(json)
 
 
+# @api_view(['GET'])
+# def get_shopee_item_price(request):
+#     category = request.data['category']
+#     queryset = ShopeeItem.objects.filter(category=category)
+#     print(queryset)
+#     json = {
+#         "name": ["Apple iPhone 13 Pro หน้าจอ 6.1 นิ้ว", "Apple iPhone 13 Pro ไอโฟน by Studio 7", "Apple iPhone 13 Pro Max 2021 iStudio by UFicon", "Apple iPhone 13 Pro Max | iStudio by copperwired.", "Apple iPhone12 หน้าจอ 6.1 นิ้ว"],
+#         "store_name": ["istudiobyspvi", "studio7online", "istudiobyuficon", "istudio_official_store", "istudiobyspvi"],
+#     }
+#     return Response(json)
+
+
 # class StoreViewSet(ModelViewSet):
 #     queryset = Store.objects.all()
 #     serializer_class = ShopeeItemSerializer

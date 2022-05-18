@@ -8,25 +8,25 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 
 def query_price(obj):
-    price_div = obj.find_element(By.CLASS_NAME, "_2v0Hgx")
+    price_div = obj.find_element(By.CLASS_NAME, "pmmxKx")
     price = ''.join(filter(str.isdigit, price_div.text))
     return price
 
 
 def query_product_image(obj):
-    image_div = obj.find_element(By.CLASS_NAME, "_3rslob")
+    image_div = obj.find_element(By.CLASS_NAME, "GZ2Hvh")
     style = image_div.get_attribute("style")
     text = style.split('"', 1)[1].split('"', 1)[0]
     return text
 
 
 def query_rating_score(obj):
-    div = obj.find_element(By.CLASS_NAME, '_3uBhVI')
+    div = obj.find_element(By.CLASS_NAME, 'Ga-lTj')
     return div.text
 
 
 def query_rating_voter(obj):
-    div_text = obj.find_elements(By.CLASS_NAME, '_3uBhVI')[1].text
+    div_text = obj.find_elements(By.CLASS_NAME, 'MrYJVA')[1].text
     if "พัน" in div_text:
         rating_voter = int(float(div_text.replace("พัน", "")) * 1000)
     else:
@@ -35,7 +35,7 @@ def query_rating_voter(obj):
 
 
 def query_product_sold(obj):
-    div_text = obj.find_element(By.CLASS_NAME, '_3b2Btx').text
+    div_text = obj.find_element(By.CLASS_NAME, '_45NQT5').text
     if "พัน" in div_text:
         product_sold = int(float(div_text.replace("พัน", "")) * 1000)
     else:
@@ -44,18 +44,18 @@ def query_product_sold(obj):
 
 
 def query_store_name(obj):
-    div = obj.find_element(By.CLASS_NAME, '_1wVLAc')
+    div = obj.find_element(By.CLASS_NAME, '_6HeM6T')
     return div.text
 
 
 def query_store_link(obj):
-    a = obj.find_element(By.CLASS_NAME, '_3IIjTV')
+    a = obj.find_element(By.CLASS_NAME, 'bgAzmi')
     store_link = a.get_attribute('href')
     return store_link
 
 
 def query_store_avatar(obj):
-    div = obj.find_element(By.CLASS_NAME, '_2T4rHi')
+    div = obj.find_element(By.CLASS_NAME, 'uUR7C3')
     img = div.find_element(By.CLASS_NAME, 'shopee-avatar__img')
     img_link = img.get_attribute('src')
     return img_link
@@ -76,13 +76,13 @@ def shopee_scrape_variation(url):
 
     """Collect product name."""
     product_name = WebDriverWait(driver, timeout=5).until(
-        lambda d: d.find_element(By.CSS_SELECTOR, "div._3g8My- > span")).text
+        lambda d: d.find_element(By.CSS_SELECTOR, "div.VCNVHn > span")).text
     # print(product_name)
 
     """
     Search for available variations.
     """
-    options = WebDriverWait(driver, timeout=5).until(lambda d: d.find_elements(By.XPATH, '//label[@class="koZBMj"]'))
+    options = WebDriverWait(driver, timeout=5).until(lambda d: d.find_elements(By.XPATH, '//label[@class="_0b8hHE"]'))
     default_options = ["ช้อปเพิ่มคุ้มกว่า", "การจัดส่ง", ""]
     """available_options for user to custom their own variations."""
     available_options = []
@@ -94,7 +94,7 @@ def shopee_scrape_variation(url):
 
     """Create dict to store the options and variations"""
     variations_list = []
-    variations = driver.find_elements(by=By.CLASS_NAME, value='_3ABAc7')
+    variations = driver.find_elements(by=By.CLASS_NAME, value='TvGNLb')
 
     """Check number of variations then scraping."""
     if len(available_options) == 2:  # If the product has 2 variations.
@@ -121,7 +121,7 @@ def shopee_scrape(url):
 
     """Collect product name."""
     product_name = WebDriverWait(driver, timeout=5).until(
-        lambda d: d.find_element(By.CSS_SELECTOR, "div._3g8My- > span")).text
+        lambda d: d.find_element(By.CSS_SELECTOR, "div.VCNVHn- > span")).text
     # print(product_name)
 
     """Collect product image."""
@@ -155,7 +155,7 @@ def shopee_scrape(url):
     """
     Search for available variations.
     """
-    options = WebDriverWait(driver, timeout=5).until(lambda d: d.find_elements(By.XPATH, '//label[@class="koZBMj"]'))
+    options = WebDriverWait(driver, timeout=5).until(lambda d: d.find_elements(By.XPATH, '//label[@class="_0b8hHE"]'))
     default_options = ["ช้อปเพิ่มคุ้มกว่า", "การจัดส่ง", ""]
     """available_options for user to custom their own variations."""
     available_options = []
@@ -167,7 +167,7 @@ def shopee_scrape(url):
 
     """Create dict to store the options and variations"""
     variations_list = []
-    variations = driver.find_elements(by=By.CLASS_NAME, value='_3ABAc7')
+    variations = driver.find_elements(by=By.CLASS_NAME, value='TvGNLb')
 
     # print(available_options)
 
@@ -189,7 +189,7 @@ def shopee_scrape(url):
                         try:
                             select2 = variation2.find_element(by=By.CLASS_NAME, value='product-variation--selected')
                             if select2.text == button2.text:
-                                quantity_div = driver.find_element(by=By.CLASS_NAME, value='L6Jueq')
+                                quantity_div = driver.find_element(by=By.CLASS_NAME, value='G2C2rT')
                                 quantity = ''.join(filter(str.isdigit, quantity_div.text))
                                 price = query_price(driver)
                                 # print(button1.text, button2.text, quantity, price)
@@ -229,7 +229,7 @@ def shopee_scrape(url):
             try:
                 select = variation.find_element(by=By.CLASS_NAME, value='product-variation--selected')
                 if select.text == button.text:
-                    quantity_div = driver.find_element(by=By.CLASS_NAME, value='L6Jueq')
+                    quantity_div = driver.find_element(by=By.CLASS_NAME, value='G2C2rT')
                     quantity = int(''.join(filter(str.isdigit, quantity_div.text)))
                     price = query_price(driver)
                     print(button.text, quantity, price)
@@ -275,7 +275,18 @@ def shopee_scrape(url):
 #     "%B8%B2%E0%B9%84%E0%B8%A1%E0%B9%88%E0%B8%A2%E0%B8%B1%E0%B8%9A-i.16489766.14938034833?sp_atk=35102125-2034"
 #     "-40ad-afd7-acc088019733"))
 
-# shopee_scrape_variation("https://shopee.co.th/%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%AB%E0%B9%88%E0%B8%A1%E0%B8%AA%E0%B8%AD%E0%B8%94%E0%B9%81%E0%B8%82%E0%B8%99-(%E0%B8%82%E0%B8%99%E0%B8%B2%E0%B8%94-50x58-%E0%B8%99%E0%B8%B4%E0%B9%89%E0%B8%A7-%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%B8%E0%B9%88%E0%B8%A1%E0%B8%A1%E0%B8%B2%E0%B8%81)-Blanket-with-Sleeve-%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%AB%E0%B9%88%E0%B8%A1%E0%B8%A1%E0%B8%B5%E0%B9%81%E0%B8%82%E0%B8%99-%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%AB%E0%B9%88%E0%B8%A1%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%AB%E0%B8%99%E0%B8%B2%E0%B8%A7-%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%84%E0%B8%A5%E0%B8%B8%E0%B8%A1-%E0%B9%80%E0%B8%AA%E0%B8%B7%E0%B9%89%E0%B8%AD%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%AB%E0%B8%99%E0%B8%B2%E0%B8%A7-%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%AB%E0%B9%88%E0%B8%A1%E0%B8%AA%E0%B8%A7%E0%B8%A1%E0%B9%81%E0%B8%82%E0%B8%99-i.74577230.7803295221?sp_atk=b93c2ae1-9137-41b0-9c20-d32297d098c9&xptdk=b93c2ae1-9137-41b0-9c20-d32297d098c9")
+# print(shopee_scrape_variation("https://shopee.co.th/%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%AB%E0%B9%88%E0%B8%A1%E0%B8%AA"
+#                               "%E0%B8%AD%E0%B8%94%E0%B9%81%E0%B8%82%E0%B8%99-("
+#                               "%E0%B8%82%E0%B8%99%E0%B8%B2%E0%B8%94-50x58-%E0%B8%99%E0%B8%B4%E0%B9%89%E0%B8%A7-%E0%B8"
+#                               "%9C%E0%B9%89%E0%B8%B2%E0%B8%99%E0%B8%B8%E0%B9%88%E0%B8%A1%E0%B8%A1%E0%B8%B2%E0%B8%81"
+#                               ")-Blanket-with-Sleeve-%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%AB%E0%B9%88%E0%B8%A1%E0%B8%A1"
+#                               "%E0%B8%B5%E0%B9%81%E0%B8%82%E0%B8%99-%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%AB%E0%B9%88%E0"
+#                               "%B8%A1%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%AB%E0%B8%99%E0%B8%B2%E0%B8%A7-%E0%B8%9C%E0%B9"
+#                               "%89%E0%B8%B2%E0%B8%84%E0%B8%A5%E0%B8%B8%E0%B8%A1-%E0%B9%80%E0%B8%AA%E0%B8%B7%E0%B9%89"
+#                               "%E0%B8%AD%E0%B8%81%E0%B8%B1%E0%B8%99%E0%B8%AB%E0%B8%99%E0%B8%B2%E0%B8%A7-%E0%B8%9C%E0"
+#                               "%B9%89%E0%B8%B2%E0%B8%AB%E0%B9%88%E0%B8%A1%E0%B8%AA%E0%B8%A7%E0%B8%A1%E0%B9%81%E0%B8"
+#                               "%82%E0%B8%99-i.74577230.7803295221?sp_atk=b93c2ae1-9137-41b0-9c20-d32297d098c9&xptdk"
+#                               "=b93c2ae1-9137-41b0-9c20-d32297d098c9"))
 
 # var = [
 #     {
